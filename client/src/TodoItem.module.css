@@ -1,0 +1,20 @@
+.done {
+  text-decoration: line-through;
+}
+
+.todoItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  /* border: 1px solid red; */
+}
+
+.todoItem + .todoItem {
+  margin-top: 5px;
+}
+
+.todoItem > p {
+  padding: 0;
+  margin: 0;
+  /* height: 20px; */
+}
