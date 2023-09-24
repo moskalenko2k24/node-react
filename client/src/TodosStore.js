@@ -20,13 +20,6 @@ class TodosStore {
   makeDone = (itemIndex) => {
     const { done } = this.todos[itemIndex];
     this.todos[itemIndex].done = !done;
-    // return this.todos;
-    // this.todos = [...this.todos];
-    // this.todos[itemIndex] = { ...this.todos[itemIndex] };
-    // ^ that code doesn't works
-    // let item = this.todos[itemIndex];
-    // item.done = !done;
-    // this.todos.splice(itemIndex, 1, item);
   }
 
   edit = (itemIndex, itemText) => {
