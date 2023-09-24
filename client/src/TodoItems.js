@@ -1,10 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import { todosStore } from './TodosStore';
+import Navbar from './Navbar'
 import TodoItem from './TodoItem';
 
 const TodoItems = observer(() => {
   const items = todosStore.items;
-  return items.map((todo, index) => {
+  const todos = items.map((todo, index) => {
     const edit = (text) => todosStore.edit(index, text);
     const remove = () => todosStore.remove(index);
     const done = () => todosStore.makeDone(index);
@@ -13,6 +14,12 @@ const TodoItems = observer(() => {
       <TodoItem item={todo} {...actionProps} />
     );
   });
+  return (
+    <>
+      <Navbar />
+      {todos}
+    </>
+  );
 });
 
 export default TodoItems;

@@ -1,10 +1,8 @@
+import Navbar from './Navbar';
 import TodoItems from './TodoItems';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 const SecondPage = () => {
-  const style = {
-    marginBottom: "5px"
-  };
   const onClick = () => {
     fetch('/api/send')
       .then(res => res.json())
@@ -12,7 +10,8 @@ const SecondPage = () => {
   }
   return (
     <>
-      <button onClick={onClick} style={style}>Send smth</button>
+      <Navbar />
+      <button onClick={onClick}>Send smth</button>
     </>
   );
 }
