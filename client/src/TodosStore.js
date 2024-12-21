@@ -1,25 +1,49 @@
-import { observable, makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 class TodosStore {
-  todos = [
-    { text: 'Learn CSS', done: false },
-    { text: 'Learn JS', done: true },
-    { text: 'Learn React', done: false },
-    { text: 'Learn Mobx', done: false },
-  ]
+  todos = []
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  remove = (itemIndex) => {
-    this.todos.splice(itemIndex, 1);
+  load = () => {
+    fetch('/api/todo')
+      .then(res => res.json())
+      .then(res => runInAction(() => {
+        this.todos = res;
+      }));
   }
 
-  // how to mutate object in array ?
+  remove = (itemIndex) => {
+    fetch('/api/todo', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({ itemIndex }),
+    }).then(res => {
+      if (res.ok)
+        runInAction(() => {
+          this.todos.splice(itemIndex, 1);
+        });
+    });
+  }
+
   makeDone = (itemIndex) => {
-    const { done } = this.todos[itemIndex];
-    this.todos[itemIndex].done = !done;
+    fetch('/api/todo', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({ itemIndex }),
+    }).then(res => {
+      if (res.ok && res.status === 200)
+        runInAction(() => {
+          const { done } = this.todos[itemIndex];
+          this.todos[itemIndex].done = !done;
+        });
+    })
   }
 
   edit = (itemIndex, itemText) => {

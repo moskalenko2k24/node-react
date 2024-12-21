@@ -1,13 +1,45 @@
-const path = require('path');
-const express = require('express');
+// const path = require('path');
+// const express = require('express');
+import path from 'path';
+import express from 'express'
+import bodyParser from 'body-parser';
 
 const app = express();
-
 app.set('port', process.env.port || 3001);
+app.use(bodyParser.json());
 
-app.get('/api/send', (req, res) => {
-  res.send({ value: 'new value' });
+// app.get('/api/send', (req, res) => {
+//   res.send({ value: 'new value' });
+// });
+
+
+let todoItems = [
+  { text: 'Learn CSS', done: false },
+  { text: 'Learn JS', done: true },
+  { text: 'Learn React', done: false },
+  { text: 'Learn Mobx', done: false },
+];
+
+app.get('/api/todo', (req, res) => {
+  const time = 900;
+  res.setTimeout(time, () => {
+    res.json(todoItems);
+  });
 });
+
+app.put('/api/todo', (req, res) => {
+  const { itemIndex } = req.body;
+  todoItems[itemIndex].done = !todoItems[itemIndex].done;
+  res.status(200);
+  res.end();
+});
+
+app.delete('/api/todo', (req, res) => {
+  const { itemIndex } = req.body;
+  todoItems.splice(itemIndex, 1);
+  res.status(200);
+  res.end();
+})
 
 // Express only serves static assets in production
 if (process.env.NODE_ENV === 'production') {
