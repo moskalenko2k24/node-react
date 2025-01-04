@@ -3,14 +3,16 @@
 import path from 'path';
 import express from 'express'
 import bodyParser from 'body-parser';
+import { sum } from './api.js';
 
 const app = express();
 app.set('port', process.env.port || 3001);
 app.use(bodyParser.json());
 
-// app.get('/api/send', (req, res) => {
-//   res.send({ value: 'new value' });
-// });
+app.get('/api/send', (req, res) => {
+  res.send({ value: sum([5]) });
+  // res.send({ value: 'new another value' });
+});
 
 
 let todoItems = [
